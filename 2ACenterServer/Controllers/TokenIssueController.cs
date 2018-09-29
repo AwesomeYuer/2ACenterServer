@@ -27,26 +27,24 @@
         {
             var appID = json["AppID"].Value<string>();
             var userID = json["UserID"].Value<string>();
+            var b = JwtTokenHelper
+                    .TryIssueToken
+                        (
+                            "aaa"
+                            , appID
+                            , JObject.Parse(@"{a:""aaaaaa""}")
+                            , "0123456789ABCDEF"
+                            , out var plainToken
+                            , out var secretToken
 
-            var claims = new Claim[]
-                        {
-                            new Claim(ClaimTypes.Name, userID)
-                            , new Claim
-                                    (
-                                        ClaimTypes.Expiration
-                                        , DateTime.Now.AddSeconds(1000).ToString()
-                                    )
-                             , new Claim("Role", "pjm")
-                        };
-            //用户标识
-            //JsonWe
-            var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
-            identity.AddClaims(claims);
+                        );
 
-            //var token = JW
-            //return new JsonResult(token);
-
-            return null;
+            var result = new JObject();
+            result.Add
+                    (
+                        "SecretToken", secretToken);
+            
+            return result;
         }
     }
 }

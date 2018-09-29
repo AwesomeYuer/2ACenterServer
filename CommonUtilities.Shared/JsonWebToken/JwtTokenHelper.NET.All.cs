@@ -31,8 +31,9 @@ namespace Microshaoft
         private static int _webTokenExpireInSeconds
                 = int.Parse
                         (
-                            ConfigurationManager
-                                .AppSettings["WebTokenExpiredInSeconds"]
+                            "10000"
+                            //ConfigurationManager
+                            //    .AppSettings["WebTokenExpiredInSeconds"]
                         );
 
 
@@ -45,8 +46,9 @@ namespace Microshaoft
         private static int _ssoTokenExpireInSeconds
                 = int.Parse
                         (
-                            ConfigurationManager
-                                .AppSettings["SsoTokenExpiredInSeconds"]
+                            "10000"
+                            //ConfigurationManager
+                            //    .AppSettings["SsoTokenExpiredInSeconds"]
                         );
 
         private static IDictionary<string, string> _claimTypes
@@ -419,7 +421,7 @@ namespace Microshaoft
                 secretTokenString = tokenHandler.WriteToken(plainToken);
                 r = true;
             }
-            catch //(Exception)
+            catch (Exception e)
             {
 
                 //throw;
