@@ -16,7 +16,15 @@ namespace App1.Samples.WebApplication.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[]
+            {
+                "value1"
+                , "value2"
+                , this.Request.HttpContext.User.Identity.Name
+                , this.HttpContext.User.Identity.Name
+                , this.ControllerContext.HttpContext.User.Identity.Name
+                , this.HttpContext.User.Claims.ToArray()[0].Value
+            };
         }
 
         // GET api/values/5
