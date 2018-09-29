@@ -36,14 +36,13 @@
                             , "0123456789ABCDEF"
                             , out var plainToken
                             , out var secretToken
-
                         );
 
             var result = new JObject();
             result.Add
                     (
                         "SecretToken", secretToken);
-            
+
             return result;
         }
     }
