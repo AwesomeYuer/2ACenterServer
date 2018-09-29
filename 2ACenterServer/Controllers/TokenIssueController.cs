@@ -39,7 +39,7 @@
                              , new Claim("Role", "pjm")
                         };
             //用户标识
-            JsonWe
+            //JsonWe
             var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
             identity.AddClaims(claims);
 
