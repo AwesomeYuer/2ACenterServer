@@ -36,13 +36,15 @@
                                         ClaimTypes.Expiration
                                         , DateTime.Now.AddSeconds(1000).ToString()
                                     )
+                             , new Claim("Role", "pjm")
                         };
             //用户标识
+            JsonWe
             var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
             identity.AddClaims(claims);
 
-            var token = JW
-            return new JsonResult(token);
+            //var token = JW
+            //return new JsonResult(token);
 
             return null;
         }
