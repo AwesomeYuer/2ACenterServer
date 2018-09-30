@@ -15,11 +15,11 @@
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class TokenIssueController : ControllerBase
+    public class TokensController : ControllerBase
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<JToken> Get
+        public ActionResult<JToken> Issue
                         (
                             [ModelBinder(typeof(JTokenModelBinder))]
                                 JToken json
@@ -27,12 +27,24 @@
         {
             var appID = json["AppID"].Value<string>();
             var userID = json["UserID"].Value<string>();
+
+
+
             var b = JwtTokenHelper
                     .TryIssueToken
                         (
                             "aaa"
                             , appID
-                            , JObject.Parse(@"{a:""aaaaaa""}")
+                            //, JObject.Parse(@"{a:""aaaaaa"",a1:{F1:""aaaaaa""}}")
+                            , new Claim[] 
+                            {
+                                new Claim
+                                    (
+                                        "aaaa"
+                                        , @"[{ R:""manger"",D:""HR"" },{ R:""manger1"",D:""HR1"" }]"
+                                    )
+                            }
+
                             , "0123456789ABCDEF"
                             , out var plainToken
                             , out var secretToken

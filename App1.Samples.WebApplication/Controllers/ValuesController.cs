@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace App1.Samples.WebApplication.Controllers
 {
@@ -14,17 +15,30 @@ namespace App1.Samples.WebApplication.Controllers
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<JToken> Get()
         {
-            return new string[]
-            {
-                "value1"
-                , "value2"
-                , this.Request.HttpContext.User.Identity.Name
-                , this.HttpContext.User.Identity.Name
-                , this.ControllerContext.HttpContext.User.Identity.Name
-                , this.HttpContext.User.Claims.ToArray()[0].Value
-            };
+            
+
+            var s =
+            HttpContext
+                .User
+                .Claims
+                .First
+                    (
+                        (x) =>
+                        {
+                            return
+                                x.Type == "aaaa";
+                        }
+                    ).Value;
+
+            return
+                JToken.Parse(s);
+
+              
+
+
+            
         }
 
         // GET api/values/5
