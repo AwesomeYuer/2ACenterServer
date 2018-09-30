@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using Microshaoft;
 
 namespace App1.Samples.WebApplication.Controllers
 {
@@ -17,28 +18,10 @@ namespace App1.Samples.WebApplication.Controllers
         [HttpGet]
         public ActionResult<JToken> Get()
         {
-            
-
-            var s =
+            return
             HttpContext
                 .User
-                .Claims
-                .First
-                    (
-                        (x) =>
-                        {
-                            return
-                                x.Type == "aaaa";
-                        }
-                    ).Value;
-
-            return
-                JToken.Parse(s);
-
-              
-
-
-            
+                .GetClaimTypeJToken("aaaa");
         }
 
         // GET api/values/5

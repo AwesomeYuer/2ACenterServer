@@ -3,7 +3,7 @@
     "windowsAuthentication": true,
     "anonymousAuthentication": false,
     "iisExpress": {
-      "applicationUrl": "http://localhost:35090",
+      "applicationUrl": "http://192.168.8.100:35090",
       "sslPort": 0
     }
   },
@@ -15,8 +15,7 @@
       "launchUrl": "api/TokenIssue",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "use64Bit": true
+      }
     },
     "_2ACenterServer": {
       "commandName": "Project",

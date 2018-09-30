@@ -100,7 +100,13 @@ namespace Microshaoft
         {
             return new DateTime(1970, 1, 1).AddSeconds(seconds).ToLocalTime();
         }
+        public static JToken GetClaimTypeJToken(this ClaimsPrincipal target, string claimType)
+        {
+            var json = GetClaimTypeValue(target, claimType);
+            return
+                JToken.Parse(json);
 
+        }
         public static string GetClaimTypeValue(this ClaimsPrincipal target, string claimType)
         {
             var r = target

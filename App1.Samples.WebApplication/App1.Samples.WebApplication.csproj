@@ -12,4 +12,8 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CommonUtilities.NET.Core.2.x\CommonUtilities.NET.Core.2.x.csproj" />
+  </ItemGroup>
+
 </Project>
