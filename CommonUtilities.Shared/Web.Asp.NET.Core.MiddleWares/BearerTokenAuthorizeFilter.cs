@@ -21,30 +21,13 @@ namespace Microshaoft.Web
                         Attribute
                         , IActionFilter
     {
-        //public void OnActionExecuting(ActionExecutingContext context)
-        //{
-        //    var s = "Attribute_OnActionExecuting";
-
-        //    //context.HttpContext.Request.Headers
-        //}
-        //public void OnActionExecuted(ActionExecutedContext context)
-        //{
-        //    //todo
-        //    context.Result = new ContentResult()
-        //    {
-        //        Content = "Resource unavailable - header should not be set"
-        //    };
-        //}
-        private string _requestTokenName;
+         private string _requestTokenName;
         public BearerTokenAuthorizeFilter
                     (
                         string requestTokenName = "Microshaoft-Authorization-Bearer"
                     )
         {
             _requestTokenName = requestTokenName;
-
-
-
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
@@ -54,13 +37,13 @@ namespace Microshaoft.Web
             if (ok)
             {
                 ok = JwtTokenHelper
-                        .TryValidateToken
-                            (
-                                "0123456789ABCDEF"
-                                , token
-                                , out var validatedPlainToken
-                                , out var claimsPrincipal
-                            );
+                            .TryValidateToken
+                                (
+                                    "0123456789ABCDEF"
+                                    , token
+                                    , out var validatedPlainToken
+                                    , out var claimsPrincipal
+                                );
                 if (ok)
                 {
                     var userName1 = context.HttpContext.User.Identity.Name;
@@ -71,16 +54,12 @@ namespace Microshaoft.Web
                 {
                     context.HttpContext.User = claimsPrincipal;
                 }
-
-
-                if (!ok)
-                {
-                    context.Result = new ForbidResult();
-                    return;
-                }
-
             }
-           
+            if (!ok)
+            {
+                context.Result = new ForbidResult();
+                return;
+            }
         }
         public void OnActionExecuted(ActionExecutedContext context)
         {
