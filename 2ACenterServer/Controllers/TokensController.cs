@@ -45,7 +45,8 @@
             var result = new JObject();
             result.Add
                     (
-                        "SecretToken", secretToken
+                        "SecretToken"
+                        , secretToken
                      );
             return result;
         }

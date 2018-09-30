@@ -21,7 +21,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)DynamicExpression\ExpressionTreeHelper.DynamicPropertyAccessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonWebToken\CliamsHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)JsonWebToken\JwtTokenHelper.NET.All.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)JsonWebToken\JwtTokenHelper.NET.Framework.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Json\JObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Json\JsonHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Json\JsonReaderHelper.cs" />

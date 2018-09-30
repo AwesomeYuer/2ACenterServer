@@ -18,7 +18,6 @@ namespace Microshaoft
 
     public class JsonWebTokenUser : IIdentity
     {
-
         public JsonWebTokenUser
                     (
                         string name
@@ -30,21 +29,16 @@ namespace Microshaoft
             AuthenticationType = authenticationType;
             IsAuthenticated = isAuthenticated;
         }
-
-        
-
         public bool IsAuthenticated
         {
             get;
             private set;
         }
-
         public string Name
         {
             get;
             private set;
         }
-
         public string AuthenticationType
         {
             get;
@@ -64,8 +58,10 @@ namespace Microshaoft
                             .GetFields
                                 (
                                     BindingFlags.Public
-                                    | BindingFlags.Static
-                                    | BindingFlags.FlattenHierarchy
+                                    |
+                                    BindingFlags.Static
+                                    |
+                                    BindingFlags.FlattenHierarchy
                                 )
                             .Where
                                 (
@@ -74,8 +70,10 @@ namespace Microshaoft
                                         return
                                             (
                                                 x.FieldType == typeof(string)
-                                                && x.IsLiteral
-                                                && !x.IsInitOnly
+                                                &&
+                                                x.IsLiteral
+                                                &&
+                                                !x.IsInitOnly
                                             );
                                     }
                                 )
@@ -100,7 +98,10 @@ namespace Microshaoft
                                 (
                                     string plainTextSecurityKey
                                     , string token
-                                    , out Microsoft.IdentityModel.Tokens.SecurityToken validatedPlainToken
+                                    , out Microsoft
+                                                .IdentityModel
+                                                .Tokens
+                                                .SecurityToken validatedPlainToken
                                     , out ClaimsPrincipal claimsPrincipal
                                 )
         {
@@ -257,15 +258,19 @@ namespace Microshaoft
             secretTokenString = null;
             try
             {
-                var signingKey = new Microsoft
-                                        .IdentityModel
-                                        .Tokens
-                                        .SymmetricSecurityKey
-                                                (
-                                                    Encoding
-                                                        .GetEncoding(plainTextSecurityKeyEncoding)
-                                                        .GetBytes(plainTextSecurityKey)
-                                                );
+                var signingKey =
+                            new Microsoft
+                                    .IdentityModel
+                                    .Tokens
+                                    .SymmetricSecurityKey
+                                            (
+                                                Encoding
+                                                    .GetEncoding
+                                                        (
+                                                            plainTextSecurityKeyEncoding
+                                                        )
+                                                    .GetBytes(plainTextSecurityKey)
+                                            );
                 var signingCredentials
                             = new Microsoft
                                         .IdentityModel
@@ -304,9 +309,11 @@ namespace Microshaoft
                         , string audience
                         , string userName
                         , IEnumerable<Claim> claims
-                        , out Microsoft.IdentityModel.Tokens.SecurityToken plainToken
+                        , out Microsoft
+                                    .IdentityModel
+                                    .Tokens
+                                    .SecurityToken plainToken
                         , out string secretTokenString
-                        
                         , Microsoft
                                 .IdentityModel
                                 .Tokens
@@ -325,28 +332,30 @@ namespace Microshaoft
             secretTokenString = null;
             try
             {
-
                 IIdentity user = new JsonWebTokenUser
-                                    (
-                                        userName
-                                        , "jwt"
-                                        , true
-                                    );
-                    
-                
-                ClaimsIdentity claimsIdentity = new ClaimsIdentity(user, claims);
-
-                var securityTokenDescriptor = new Microsoft.IdentityModel.Tokens.SecurityTokenDescriptor()
+                                        (
+                                            userName
+                                            , "jwt"
+                                            , true
+                                        );
+                var claimsIdentity = new ClaimsIdentity(user, claims);
+                var securityTokenDescriptor = 
+                                    new Microsoft
+                                            .IdentityModel
+                                            .Tokens
+                                            .SecurityTokenDescriptor()
                 {
                     Issuer = issuer,
                     Audience = audience,
                     IssuedAt = DateTime.Now,
                     Subject = claimsIdentity,
                     SigningCredentials = signingCredentials,
-                    
                 };
-
-                var tokenHandler = new System.IdentityModel.Tokens.Jwt.JwtSecurityTokenHandler();
+                var tokenHandler = new System
+                                            .IdentityModel
+                                            .Tokens
+                                            .Jwt
+                                            .JwtSecurityTokenHandler();
                 plainToken = tokenHandler.CreateToken(securityTokenDescriptor);
                 secretTokenString = tokenHandler.WriteToken(plainToken);
                 r = true;

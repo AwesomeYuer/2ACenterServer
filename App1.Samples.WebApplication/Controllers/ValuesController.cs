@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
-using Microshaoft;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Server.IISIntegration;
-using Microshaoft.Web;
+﻿
 
 namespace App1.Samples.WebApplication.Controllers
 {
+    using Microshaoft;
+    using Microshaoft.Web;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json.Linq;
     //Windows Authentication
     [Authorize]
     //BearerTokenAuthorizeFilter
