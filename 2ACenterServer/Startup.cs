@@ -43,6 +43,7 @@ namespace _2ACenterServer
             }
 
             //app.UseHttpsRedirection();
+            //app.UseAuthentication();
             app.UseMvc();
         }
     }

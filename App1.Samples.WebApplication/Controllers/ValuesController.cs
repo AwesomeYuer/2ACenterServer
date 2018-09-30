@@ -12,25 +12,14 @@ using Microshaoft.Web;
 
 namespace App1.Samples.WebApplication.Controllers
 {
-    [
-        Authorize
-            //(
-            //    AuthenticationSchemes = "Windows," + JwtBearerDefaults.AuthenticationScheme
-
-            //)
-    ]
-    [MyActionFilter]
+    //Windows Authentication
+    [Authorize]
+    //BearerTokenAuthorizeFilter
+    [BearerTokenAuthorizeFilter]
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        //public const string AuthSchemes =
-        //        IISDefaults.AuthenticationScheme
-        //        +
-        //        ","
-        //        +
-        //        JwtBearerDefaults.AuthenticationScheme;
-        // GET api/values
         [HttpGet]
         public ActionResult<JToken> Get()
         {
@@ -49,14 +38,14 @@ namespace App1.Samples.WebApplication.Controllers
                         .User
                         .TryGetClaimTypeJTokenValue
                             (
-                                "aaaa"
+                                "Extension"
                                 , out var claimValue
                             )
                 )
             {
                 result.Add
                     (
-                        "aaaa"
+                        "ExtensionClaims"
                         , claimValue
                     );
             }

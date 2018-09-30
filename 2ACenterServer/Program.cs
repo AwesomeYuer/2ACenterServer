@@ -23,17 +23,17 @@ namespace _2ACenterServer
                 .UseStartup<Startup>()
             .UseUrls("http://+:5000")
 
-            //  自宿主专用
-            //.UseHttpSys(options =>
-            //{
-            //    options.Authentication.Schemes =
-            //        AuthenticationSchemes.NTLM
-            //        |
-            //        AuthenticationSchemes.Negotiate
+             //// 自宿主专用
+            .UseHttpSys(options =>
+            {
+                options.Authentication.Schemes =
+                    AuthenticationSchemes.NTLM
+                    |
+                    AuthenticationSchemes.Negotiate
 
-            //        ;
-            //    options.Authentication.AllowAnonymous = false;
-            //})
+                    ;
+                options.Authentication.AllowAnonymous = false;
+            })
             ;
 
     }
