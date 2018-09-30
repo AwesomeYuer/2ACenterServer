@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.HttpSys;
+using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -36,9 +40,9 @@ namespace App1.Samples.WebApplication
 
             var signingKey = new SymmetricSecurityKey
                 (
-                 Encoding
-                                                           .GetEncoding("UTF-8")
-                                                           .GetBytes("0123456789ABCDEF")
+                    Encoding
+                        .GetEncoding("UTF-8")
+                        .GetBytes("0123456789ABCDEF")
                 );
             var tokenValidationParameters = new TokenValidationParameters
             {
@@ -51,15 +55,36 @@ namespace App1.Samples.WebApplication
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero,
                 RequireExpirationTime = true,
-            };
-            //注入Jwt验证
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                {
-                    options.RequireHttpsMetadata = false;
-                    options.TokenValidationParameters = tokenValidationParameters;
-                });
 
+            };
+
+            services
+                .AddAuthentication
+                    (
+                        (options) =>
+                        {
+                            options.DefaultAuthenticateScheme = IISDefaults.AuthenticationScheme;
+                            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                        }
+                    )
+                .AddJwtBearer
+                    (
+                        options =>
+                        {
+                            options.RequireHttpsMetadata = false;
+                            options.TokenValidationParameters = tokenValidationParameters;
+                        }
+                    );
+            // let only my api users to be able to call 
+            //services.AddAuthorization(auth =>
+            //{
+            //    auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+            //        .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
+                    
+            //        .RequireClaim(ClaimTypes.Name, @"aaafareast\xiyueyu111")
+                    
+            //        .Build());
+            //});
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -84,7 +109,7 @@ namespace App1.Samples.WebApplication
             //);
             //开启验证
             app.UseAuthentication();
-
+            
             //app.UseHttpsRedirection();
             app.UseMvc();
         }

@@ -6,22 +6,62 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
 using Microshaoft;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Server.IISIntegration;
+using Microshaoft.Web;
 
 namespace App1.Samples.WebApplication.Controllers
 {
-    [Authorize]
+    [
+        Authorize
+            //(
+            //    AuthenticationSchemes = "Windows," + JwtBearerDefaults.AuthenticationScheme
+
+            //)
+    ]
+    [MyActionFilter]
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        //public const string AuthSchemes =
+        //        IISDefaults.AuthenticationScheme
+        //        +
+        //        ","
+        //        +
+        //        JwtBearerDefaults.AuthenticationScheme;
         // GET api/values
         [HttpGet]
         public ActionResult<JToken> Get()
         {
+            var result = new JObject();
+            result.Add
+                    (
+                        "User"
+                        , HttpContext
+                            .User
+                            .Identity
+                            .Name
+                    );
+            if
+                (
+                    HttpContext
+                        .User
+                        .TryGetClaimTypeJTokenValue
+                            (
+                                "aaaa"
+                                , out var claimValue
+                            )
+                )
+            {
+                result.Add
+                    (
+                        "aaaa"
+                        , claimValue
+                    );
+            }
             return
-            HttpContext
-                .User
-                .GetClaimTypeJToken("aaaa");
+                result;
         }
 
         // GET api/values/5

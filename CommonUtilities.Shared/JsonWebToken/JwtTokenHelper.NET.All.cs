@@ -100,12 +100,31 @@ namespace Microshaoft
         {
             return new DateTime(1970, 1, 1).AddSeconds(seconds).ToLocalTime();
         }
-        public static JToken GetClaimTypeJToken(this ClaimsPrincipal target, string claimType)
+        public static bool TryGetClaimTypeJTokenValue
+                                (
+                                    this ClaimsPrincipal target
+                                    , string claimType
+                                    , out JToken claimValue
+                                )
+        {
+            claimValue = null;
+            var r = target
+                        .TryGetClaimTypeValue
+                            (
+                                claimType
+                                , out var s
+                            );
+            if (r)
+            {
+                claimValue = JToken.Parse(s);
+            }
+            return r;
+        }
+        public static JToken GetClaimTypeJTokenValue(this ClaimsPrincipal target, string claimType)
         {
             var json = GetClaimTypeValue(target, claimType);
             return
                 JToken.Parse(json);
-
         }
         public static string GetClaimTypeValue(this ClaimsPrincipal target, string claimType)
         {
@@ -121,6 +140,40 @@ namespace Microshaoft
                             ).Value;
             return r;
         }
+
+        public static bool TryGetClaimTypeValue
+                                (
+                                    this ClaimsPrincipal target
+                                    , string claimType
+                                    , out string claimValue
+                                )
+        {
+            claimValue = string.Empty;
+            var r = target
+                        .HasClaim
+                            (
+                                (x) =>
+                                {
+                                    return
+                                        (string.Compare(x.Type, claimType, true) == 0);
+                                }
+                            );
+            if (r)
+            {
+                claimValue = target
+                                .Claims
+                                .FirstOrDefault
+                                    (
+                                        (x) =>
+                                        {
+                                            return
+                                                (x.Type == claimType);
+                                        }
+                                    ).Value;
+            }
+            return r;
+        }
+
 
         public static DateTime GetIssuedAtTime(this ClaimsPrincipal target)
         {
