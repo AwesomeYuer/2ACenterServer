@@ -22,6 +22,8 @@ namespace _2ACenterServer
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
             .UseUrls("http://+:5000")
+
+            //  自宿主专用
             //.UseHttpSys(options =>
             //{
             //    options.Authentication.Schemes =
