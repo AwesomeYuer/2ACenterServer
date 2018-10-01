@@ -1,54 +1,150 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Microshaoft;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Internal;
-
-namespace Microshaoft.Web
+﻿namespace Microshaoft.Web
 {
-    public class BearerTokenAuthorizeFilter
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Filters;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.Primitives;
+    using System;
+    using System.Linq;
+
+    public enum TokenCarriersFlags : ushort
+    {
+        Header      = 0b0000_00001
+        , Cookie    = 0b0000_00010
+    }
+
+
+    public class BearerTokenWebApiAuthorizeFilter
                     :
                         //AuthorizeAttribute
                         Attribute
                         , IActionFilter
     {
-         private string _requestTokenName;
-        public BearerTokenAuthorizeFilter
+        private string _jwtName;
+        private TokenCarriersFlags _jwtCarrier;
+        private string _jwtIssuer;
+        private string[] _jwtAudiences;
+        private bool _jwtNeedValidIP = false;
+        private string _jwtSecretKey;
+        public BearerTokenWebApiAuthorizeFilter
                     (
-                        string requestTokenName = "Microshaoft-Authorization-Bearer"
+                        string jwtValidationJsonFile = "JwtValidation.json"
                     )
         {
-            _requestTokenName = requestTokenName;
+            var configurationBuilder =
+                        new ConfigurationBuilder()
+                                .AddJsonFile(jwtValidationJsonFile);
+            var configuration = configurationBuilder.Build();
+            _jwtName = configuration
+                                .GetSection("TokenName")
+                                .Value;
+            _jwtCarrier = Enum
+                            .Parse<TokenCarriersFlags>
+                                (
+                                    configuration
+                                        .GetSection("TokenCarrier")
+                                        .Value
+                                    , true
+                                );
+            _jwtIssuer = configuration
+                                .GetSection("Issuer")
+                                .Value;
+            _jwtAudiences = configuration
+                                .GetSection("Audiences")
+                                .AsEnumerable()
+                                .Select
+                                    (
+                                        (x) =>
+                                        {
+                                            return
+                                                x.Value;
+                                        }
+                                    )
+                                .ToArray();
+            _jwtNeedValidIP = bool
+                                .Parse
+                                    (
+                                        configuration
+                                            .GetSection("NeedValidIP")
+                                            .Value
+                                    );
+            _jwtSecretKey = configuration
+                                .GetSection("SecretKey")
+                                .Value;
+                                    
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
             var request = context.HttpContext.Request;
-            var ok = request.Headers.TryGetValue(_requestTokenName, out var token);
+            StringValues token = string.Empty;
+            var ok = false;
+            if (_jwtCarrier.HasFlag(TokenCarriersFlags.Header))
+            {
+                ok = request.Headers.TryGetValue(_jwtName, out token);
+            }
+            else if (_jwtCarrier.HasFlag(TokenCarriersFlags.Cookie))
+            {
+                ok = request.Cookies.TryGetValue(_jwtName, out var t);
+                token = t;
+            }
             if (ok)
             {
                 ok = JwtTokenHelper
                             .TryValidateToken
                                 (
-                                    "0123456789ABCDEF"
+                                    _jwtSecretKey
                                     , token
                                     , out var validatedPlainToken
                                     , out var claimsPrincipal
                                 );
                 if (ok)
                 {
+                    var iat = claimsPrincipal.GetIssuedAtTime();
+
+                }
+                if (ok)
+                {
+                    ok = (string.Compare(validatedPlainToken.Issuer, _jwtIssuer, true) == 0);
+                }
+                if (ok)
+                {
+                   ok = _jwtAudiences
+                            .Any
+                                (
+                                    (x) => 
+                                    {
+                                        return
+                                            validatedPlainToken
+                                                    .Audiences
+                                                    .Any
+                                                        (
+                                                            (xx) =>
+                                                            {
+                                                                return
+                                                                    (xx == x);
+                                                            }
+                                                        );
+                                    }
+                                );
+                }
+                if (ok)
+                {
                     var userName1 = context.HttpContext.User.Identity.Name;
                     var userName2 = claimsPrincipal.Identity.Name;
                     ok = (string.Compare(userName1, userName2, true) == 0);
+                }
+                if (ok)
+                {
+                    if (_jwtNeedValidIP)
+                    {
+                        var requestIpAddress = context
+                                                    .HttpContext
+                                                    .Connection
+                                                    .RemoteIpAddress;
+                        var tokenIpAddress = claimsPrincipal.GetClientIP();
+                        ok = (requestIpAddress.ToString() == tokenIpAddress.ToString());
+                    }
                 }
                 if (ok)
                 {
@@ -63,11 +159,7 @@ namespace Microshaoft.Web
         }
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            //throw new NotImplementedException();
-
-
+            
         }
-
-
     }
 }

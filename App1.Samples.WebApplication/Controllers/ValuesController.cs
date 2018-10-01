@@ -10,7 +10,7 @@ namespace App1.Samples.WebApplication.Controllers
     //Windows Authentication
     [Authorize]
     //BearerTokenAuthorizeFilter
-    [BearerTokenAuthorizeFilter]
+    [BearerTokenWebApiAuthorizeFilter]
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase

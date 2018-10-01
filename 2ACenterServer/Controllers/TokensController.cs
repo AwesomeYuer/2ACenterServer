@@ -22,6 +22,9 @@
         {
             var appID = json["AppID"].Value<string>();
             var userName = HttpContext.User.Identity.Name;
+
+            var remoteIpAddress = Request.HttpContext.Connection.RemoteIpAddress;
+
             var b = JwtTokenHelper
                             .TryIssueToken
                                 (
@@ -32,9 +35,19 @@
                                     , new Claim[] 
                                     {
                                         new Claim
+                                        (
+                                            "ip"
+                                            , remoteIpAddress.ToString()
+                                        )
+                                        ,
+                                        new Claim
                                             (
                                                 "Extension"
-                                                , @"[{ R:""manger"",D:""HR"" },{ R:""manger1"",D:""HR1"" }]"
+                                                , @"
+                                                [
+                                                    { R:""manger"",D:""HR"" }
+                                                    ,{ R:""manger1"",D:""HR1"" }
+                                                ]"
                                             )
                                     }
                                     , "0123456789ABCDEF"
