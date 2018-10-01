@@ -14,7 +14,7 @@
     }
 
 
-    public class BearerTokenWebApiAuthorizeFilter
+    public class BearerTokenBasedWebApiAuthorizeFilter
                     :
                         //AuthorizeAttribute
                         Attribute
@@ -27,7 +27,7 @@
         private bool _jwtNeedValidIP = false;
         private string _jwtSecretKey;
         private int _jwtExpireInSeconds = 0;
-        public BearerTokenWebApiAuthorizeFilter
+        public BearerTokenBasedWebApiAuthorizeFilter
                     (
                         string jwtValidationJsonFile = "JwtValidation.json"
                     )
