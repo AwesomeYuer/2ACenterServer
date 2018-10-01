@@ -2,6 +2,7 @@
   "TokenName": "Microshaoft-Authorization-Bearer",
   "TokenCarrier": "Header",
   "NeedValidIP": "false",
+  "ExpireInSeconds": "3600",
   "Issuer": "aaa",
   "Audiences": [
     "app1",
