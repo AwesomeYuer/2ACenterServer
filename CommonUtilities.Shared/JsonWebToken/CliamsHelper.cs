@@ -101,7 +101,7 @@
             }
             return r;
         }
-        public static DateTime? GetIssuedAtTime(this ClaimsPrincipal target)
+        public static DateTime? GetIssuedAtLocalTime(this ClaimsPrincipal target)
         {
             DateTime? r = null;
             var b = target

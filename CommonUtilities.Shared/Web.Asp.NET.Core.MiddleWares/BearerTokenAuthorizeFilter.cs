@@ -26,6 +26,7 @@
         private string[] _jwtAudiences;
         private bool _jwtNeedValidIP = false;
         private string _jwtSecretKey;
+        private int _jwtExpireInSeconds = 0;
         public BearerTokenWebApiAuthorizeFilter
                     (
                         string jwtValidationJsonFile = "JwtValidation.json"
@@ -71,7 +72,14 @@
             _jwtSecretKey = configuration
                                 .GetSection("SecretKey")
                                 .Value;
-                                    
+            _jwtExpireInSeconds = int
+                                .Parse
+                                    (
+                                        configuration
+                                                     .GetSection("ExpireInSeconds")
+                                                     .Value
+                                    );
+
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
@@ -100,8 +108,14 @@
                                 );
                 if (ok)
                 {
-                    var iat = claimsPrincipal.GetIssuedAtTime();
-
+                    if (_jwtExpireInSeconds > 0)
+                    {
+                        var iat = claimsPrincipal.GetIssuedAtLocalTime();
+                        ok = 
+                                DateTimeHelper.SecondsDiffNow(iat.Value)
+                                <=
+                                _jwtExpireInSeconds;
+                    }
                 }
                 if (ok)
                 {
