@@ -29,12 +29,17 @@
         private int _jwtExpireInSeconds = 0;
         public BearerTokenBasedWebApiAuthorizeFilter
                     (
-                        string jwtValidationJsonFile = "JwtValidation.json"
+                        //string jwtValidationJsonFile = "JwtValidation.json"
                     )
         {
+            Initialize();
+        }
+        public virtual void Initialize()
+        {
+            string jwtValidationJsonFile = "JwtValidation.json";
             var configurationBuilder =
-                        new ConfigurationBuilder()
-                                .AddJsonFile(jwtValidationJsonFile);
+                                    new ConfigurationBuilder()
+                                            .AddJsonFile(jwtValidationJsonFile);
             var configuration = configurationBuilder.Build();
             _jwtName = configuration
                                 .GetSection("TokenName")
@@ -79,10 +84,9 @@
                                                      .GetSection("ExpireInSeconds")
                                                      .Value
                                     );
-
         }
 
-        public void OnActionExecuting(ActionExecutingContext context)
+        public virtual void OnActionExecuting(ActionExecutingContext context)
         {
             var request = context.HttpContext.Request;
             StringValues token = string.Empty;
@@ -171,7 +175,7 @@
                 return;
             }
         }
-        public void OnActionExecuted(ActionExecutedContext context)
+        public virtual void OnActionExecuted(ActionExecutedContext context)
         {
             
         }
