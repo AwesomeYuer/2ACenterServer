@@ -1,4 +1,5 @@
-﻿namespace Microshaoft.Web
+﻿#if NETCOREAPP2_X
+namespace Microshaoft.Web
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
@@ -181,3 +182,4 @@
         }
     }
 }
+#endif
