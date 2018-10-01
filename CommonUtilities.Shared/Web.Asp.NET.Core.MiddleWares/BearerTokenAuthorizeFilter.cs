@@ -78,12 +78,12 @@
                                 .GetSection("SecretKey")
                                 .Value;
             _jwtExpireInSeconds = int
-                                .Parse
-                                    (
-                                        configuration
-                                                     .GetSection("ExpireInSeconds")
-                                                     .Value
-                                    );
+                                    .Parse
+                                        (
+                                            configuration
+                                                .GetSection("ExpireInSeconds")
+                                                .Value
+                                        );
         }
 
         public virtual void OnActionExecuting(ActionExecutingContext context)
