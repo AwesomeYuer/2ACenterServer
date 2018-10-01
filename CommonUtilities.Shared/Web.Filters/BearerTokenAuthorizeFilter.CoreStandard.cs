@@ -8,7 +8,7 @@ namespace Microshaoft.Web
     using System;
     using System.Linq;
 
-    public enum TokenCarriersFlags : ushort
+    public enum TokenStoreFlags : ushort
     {
         Header      = 0b0000_00001
         , Cookie    = 0b0000_00010
@@ -22,7 +22,7 @@ namespace Microshaoft.Web
                         , IActionFilter
     {
         private string _jwtName;
-        private TokenCarriersFlags _jwtCarrier;
+        private TokenStoreFlags _jwtCarrier;
         private string _jwtIssuer;
         private string[] _jwtAudiences;
         private bool _jwtNeedValidIP = false;
@@ -37,16 +37,23 @@ namespace Microshaoft.Web
         }
         public virtual void Initialize()
         {
-            string jwtValidationJsonFile = "JwtValidation.json";
+            //允许继承覆盖, 构造函数
+            LoadConfiguration();
+        }
+        public virtual void LoadConfiguration
+                                (
+                                    string jwtValidationJsonFile = "JwtValidation.json"
+                                )
+        {
             var configurationBuilder =
-                                    new ConfigurationBuilder()
-                                            .AddJsonFile(jwtValidationJsonFile);
+                        new ConfigurationBuilder()
+                                .AddJsonFile(jwtValidationJsonFile);
             var configuration = configurationBuilder.Build();
             _jwtName = configuration
-                                .GetSection("TokenName")
-                                .Value;
+                            .GetSection("TokenName")
+                            .Value;
             _jwtCarrier = Enum
-                            .Parse<TokenCarriersFlags>
+                            .Parse<TokenStoreFlags>
                                 (
                                     configuration
                                         .GetSection("TokenCarrier")
@@ -92,11 +99,11 @@ namespace Microshaoft.Web
             var request = context.HttpContext.Request;
             StringValues token = string.Empty;
             var ok = false;
-            if (_jwtCarrier.HasFlag(TokenCarriersFlags.Header))
+            if (_jwtCarrier.HasFlag(TokenStoreFlags.Header))
             {
                 ok = request.Headers.TryGetValue(_jwtName, out token);
             }
-            else if (_jwtCarrier.HasFlag(TokenCarriersFlags.Cookie))
+            else if (_jwtCarrier.HasFlag(TokenStoreFlags.Cookie))
             {
                 ok = request.Cookies.TryGetValue(_jwtName, out var t);
                 token = t;
@@ -157,10 +164,11 @@ namespace Microshaoft.Web
                 {
                     if (_jwtNeedValidIP)
                     {
-                        var requestIpAddress = context
-                                                    .HttpContext
-                                                    .Connection
-                                                    .RemoteIpAddress;
+                        var requestIpAddress = 
+                                            context
+                                                .HttpContext
+                                                .Connection
+                                                .RemoteIpAddress;
                         var tokenIpAddress = claimsPrincipal.GetClientIP();
                         ok = (requestIpAddress.ToString() == tokenIpAddress.ToString());
                     }
