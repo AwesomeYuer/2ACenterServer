@@ -10,12 +10,12 @@ namespace App1.Samples.WebApplication.Controllers
     //Windows Authentication
     [Authorize]
     //BearerTokenAuthorizeFilter
-    [BearerTokenBasedAuthorizeWebApiFilter]
     [Route("api/[controller]")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
         [HttpGet]
+        [BearerTokenBasedAuthorizeWebApiFilter]
         public ActionResult<JToken> Get()
         {
             var result = new JObject();
@@ -50,6 +50,7 @@ namespace App1.Samples.WebApplication.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
+        [BearerTokenBasedAuthorizeWebApiFilter]
         public ActionResult<string> Get(int id)
         {
             return "value";

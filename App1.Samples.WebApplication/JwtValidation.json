@@ -2,10 +2,10 @@
   "TokenName": "Microshaoft-Authorization-Bearer",
   "TokenCarrier": "Header",
   "NeedValidIP": "false",
-  "ExpireInSeconds": "3600",
+  "ExpireInSeconds": "0",
   "Issuer": "aaa",
   "Audiences": [
-    "app3",
+    "app1",
     "app2"
   ],
   "SecretKey": "0123456789ABCDEF"
