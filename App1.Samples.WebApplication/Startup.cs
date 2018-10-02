@@ -1,25 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Server.HttpSys;
-using Microsoft.AspNetCore.Server.IISIntegration;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-
-namespace App1.Samples.WebApplication
+﻿namespace App1.Samples.WebApplication
 {
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -32,60 +18,7 @@ namespace App1.Samples.WebApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddCors();
-
-            //从配置文件中获取私钥、发行者、接受者三个参数
-            //三个参数的值必需与颁发Token站相同
-            //var audienceConfig = Configuration.GetSection("Audience");
-
-            var signingKey = new SymmetricSecurityKey
-                (
-                    Encoding
-                        .GetEncoding("UTF-8")
-                        .GetBytes("0123456789ABCDEF")
-                );
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = signingKey,
-                ValidateIssuer = true,
-                ValidIssuer = "aaa",
-                ValidateAudience = true,
-                ValidAudience = "app1",
-                ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero,
-                RequireExpirationTime = true,
-
-            };
-
-            services
-                .AddAuthentication
-                    (
-                        (options) =>
-                        {
-                            options.DefaultAuthenticateScheme = IISDefaults.AuthenticationScheme;
-                            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                        }
-                    )
-                .AddJwtBearer
-                    (
-                        options =>
-                        {
-                            options.RequireHttpsMetadata = false;
-                            options.TokenValidationParameters = tokenValidationParameters;
-                        }
-                    );
-            // let only my api users to be able to call 
-            //services.AddAuthorization(auth =>
-            //{
-            //    auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
-            //        .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
-                    
-            //        .RequireClaim(ClaimTypes.Name, @"aaafareast\xiyueyu111")
-                    
-            //        .Build());
-            //});
-
+            services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

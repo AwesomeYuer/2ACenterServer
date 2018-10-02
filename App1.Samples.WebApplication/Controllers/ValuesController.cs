@@ -1,6 +1,4 @@
-﻿
-
-namespace App1.Samples.WebApplication.Controllers
+﻿namespace App1.Samples.WebApplication.Controllers
 {
     using Microshaoft;
     using Microshaoft.Web;
