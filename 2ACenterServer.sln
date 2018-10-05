@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00", "00", "{A5D61396-8417-
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonUtilities.NET.Core.2.x", "CommonUtilities.NET.Core.2.x\CommonUtilities.NET.Core.2.x.csproj", "{C86A217C-CAFB-4FBD-B708-C9D5E4BA4625}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationAuthorizationCenterServer", "AuthenticationAuthorizationCenterServer\AuthenticationAuthorizationCenterServer\AuthenticationAuthorizationCenterServer.csproj", "{69996EFA-0C6E-4399-B032-AF92A2ADA920}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "00.AuthenticationAuthorizationCenterServer", "AuthenticationAuthorizationCenterServer\AuthenticationAuthorizationCenterServer\00.AuthenticationAuthorizationCenterServer.csproj", "{69996EFA-0C6E-4399-B032-AF92A2ADA920}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
