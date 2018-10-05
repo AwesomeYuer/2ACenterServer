@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2ACenterServer", "2ACenterServer\2ACenterServer.csproj", "{8559041D-3D2F-47E1-93C9-B4E7F6B474E7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App1.Samples.WebApplication", "App1.Samples.WebApplication\App1.Samples.WebApplication.csproj", "{77271D87-4ECD-48A5-9471-B06DE254FCF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App1.Samples.WebApplication", "App1.Samples.WebApplication\App1.Samples.WebApplication.csproj", "{77271D87-4ECD-48A5-9471-B06DE254FCF6}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CommonUtilities.Shared", "CommonUtilities.Shared\CommonUtilities.Shared.shproj", "{7878DF3A-8418-4ACA-B415-300B81AFD792}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00", "00", "{A5D61396-8417-421D-BC18-B365CA0A757F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommonUtilities.NET.Core.2.x", "CommonUtilities.NET.Core.2.x\CommonUtilities.NET.Core.2.x.csproj", "{C86A217C-CAFB-4FBD-B708-C9D5E4BA4625}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationAuthorizationCenterServer", "AuthenticationAuthorizationCenterServer\AuthenticationAuthorizationCenterServer\AuthenticationAuthorizationCenterServer.csproj", "{69996EFA-0C6E-4399-B032-AF92A2ADA920}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -22,10 +22,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8559041D-3D2F-47E1-93C9-B4E7F6B474E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8559041D-3D2F-47E1-93C9-B4E7F6B474E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8559041D-3D2F-47E1-93C9-B4E7F6B474E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8559041D-3D2F-47E1-93C9-B4E7F6B474E7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{77271D87-4ECD-48A5-9471-B06DE254FCF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{77271D87-4ECD-48A5-9471-B06DE254FCF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77271D87-4ECD-48A5-9471-B06DE254FCF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -34,6 +30,10 @@ Global
 		{C86A217C-CAFB-4FBD-B708-C9D5E4BA4625}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C86A217C-CAFB-4FBD-B708-C9D5E4BA4625}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C86A217C-CAFB-4FBD-B708-C9D5E4BA4625}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69996EFA-0C6E-4399-B032-AF92A2ADA920}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69996EFA-0C6E-4399-B032-AF92A2ADA920}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69996EFA-0C6E-4399-B032-AF92A2ADA920}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69996EFA-0C6E-4399-B032-AF92A2ADA920}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
